@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin name="faq">
+	<title>FAQ</title>
+	<summary>Allows to create a FAQ section on your Subrion CMS powered website.</summary>
+	<author>Intelliants LLC</author>
+	<contributor>Intelliants LLC</contributor>
+	<version>4.0.0</version>
+	<date>2015-11-03</date>
+	<compatibility>4.0</compatibility>
+
+	<adminpages>
+		<page group="content" name="faq" menus="menu" url="faq/" order="50">FAQs</page>
+	</adminpages>
+
+	<actions>
+		<action name="faq_view" url="faq/" icon="list" order="1" pages="faq:add, faq:edit">List</action>
+		<action name="faq_add" url="faq/add/" icon="plus" order="2" pages="faq">Add FAQ</action>
+	</actions>
+
+	<pages>
+		<page name="faq" menus="main,bottom" url="faq/">FAQ</page>
+	</pages>
+
+	<phrases>
+		<phrase category="admin" key="error_question">Question is empty.</phrase>
+		<phrase category="admin" key="error_answer">Answer is empty.</phrase>
+		<phrase category="admin" key="faq_added">Question has been added.</phrase>
+		<phrase category="admin" key="add_faq">Add FAQ</phrase>
+		<phrase category="admin" key="edit_faq">Edit FAQ</phrase>
+		<phrase category="admin" key="question">Question</phrase>
+		<phrase category="admin" key="answer">Answer</phrase>
+		<phrase category="admin" key="manage_faq">Manage FAQ</phrase>
+		<phrase category="common" key="faq">FAQ</phrase>
+
+		<phrase category="frontend" key="no_faq">There is no any FAQ.</phrase>
+		<phrase category="frontend" key="question_list">Questions</phrase>
+	</phrases>
+
+	<install>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}faq` (
+	`id` int(11) unsigned NOT NULL auto_increment,
+	`question` text NOT NULL,
+	`answer` text NOT NULL,
+	`status` enum('inactive','active') NOT NULL default 'inactive',
+	`lang` char(2) NOT NULL,
+	`order` smallint(5) unsigned NOT NULL,
+	PRIMARY KEY (`id`),
+	KEY `lang` (`lang`)
+) {mysql_version};
+			]]>
+		</sql>
+	</install>
+
+	<uninstall>
+		<sql>
+			<![CDATA[
+DROP TABLE IF EXISTS `{prefix}faq`;
+			]]>
+		</sql>
+	</uninstall>
+
+	<upgrade>
+		<sql version="3.2.0">
+			<![CDATA[
+ALTER TABLE `{prefix}faq` ADD `order` smallint(5) unsigned NOT NULL DEFAULT 0;
+			]]>
+		</sql>
+	</upgrade>
+</plugin>
