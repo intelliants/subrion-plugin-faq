@@ -18,6 +18,17 @@
 			</div>
 
 			<div class="row">
+				<label class="col col-lg-2 control-label">{lang key='category'} {lang key='field_required'}</label>
+				<div class="col col-lg-4">
+					<select name="cid">
+						{foreach $categs as $category}
+							<option value="{$category.id}" {if isset($faq.cid) && $faq.cid == $category.id} selected="selected"{/if} {if isset($smarty.post.cid) && $category.id == $smarty.post.cid}selected{/if}>{$category.title}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
 				<label class="col col-lg-2 control-label" for="input-question">{lang key='question'}</label>
 				<div class="col col-lg-4">
 					<input type="text" name="question" value="{$faq.question}" id="input-question">

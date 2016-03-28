@@ -1,0 +1,15 @@
+.faq-wrapper {
+	background: #f1f1f1;
+	border-radius: 5px;
+	padding: 10px;
+}
+.faq-container {
+	margin-bottom: 15px;
+}
+.faq-cat-title {
+	float: left;
+}
+.faq-list {
+	clear: left;
+	margin-top: 0;
+}

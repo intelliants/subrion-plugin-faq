@@ -74,11 +74,15 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 		$faq = array(
 			'id' => isset($id) ? $id : 0,
+			'cid' => iaUtil::checkPostParam('cid', $faq),
 			'lang' => iaUtil::checkPostParam('lang', $faq),
 			'status' => iaUtil::checkPostParam('status', $faq),
 			'question' => iaUtil::checkPostParam('question', $faq),
 			'answer' => iaUtil::checkPostParam('answer', $faq),
 		);
+
+		$categs = $iaDb->all(array('id', 'title'), '1=1 ORDER BY `id`', 0, 0, 'faq_categs');
+		$iaView->assign('categs', $categs);
 
 		if (isset($_POST['save']))
 		{

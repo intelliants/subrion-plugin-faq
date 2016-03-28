@@ -1,23 +1,24 @@
-{if $faqs}
-	<div class="well">
-		<h4 class="m-t-0">{lang key='question_list'}</h4>
-		<ol class="m-b-0">
-			{foreach $faqs as $faq}
-				<li><a href="{$smarty.const.IA_SELF}#faq-{$faq.id}">{$faq.question}</a></li>
-			{/foreach}
-		</ol>
-	</div>
+{if $categories && $total > 0}
+	<div class="faq-wrapper">
+		{foreach $categories as $category}
+			{if $category.counter > 0}
+				<div class="faq-container">
+					<h4 class="faq-cat-title" data-toggle="tooltip"title="{$category.description|strip_tags}">{$category.title}</h4>
 
-	<div class="answers-list">
-		{foreach $faqs as $faq}
-			<div class="answer">
-				<a name="faq-{$faq.id}"></a>
-				<h4>{$faq@iteration}. {$faq.question}</h4>
-				<div class="answer_body">{$faq.answer}</div>
-			</div>
-			{if !$faq@last}<hr>{/if}
+					<ol class="faq-list">
+						{foreach $category.questions as $faq}
+							<li>
+								<a data-toggle="collapse" href="#faq{$faq.id}" aria-expanded="false">{$faq.question}</a>
+								<div class="collapse" id="faq{$faq.id}">{$faq.answer}</div>
+							</li>
+						{/foreach}
+					</ol>
+				</div>
+			{/if}
 		{/foreach}
 	</div>
+
+	{ia_add_media files='css: _IA_URL_plugins/faq/templates/front/css/style'}
 {else}
 	<div class="alert alert-info">{lang key='no_faq'}</div>
 {/if}

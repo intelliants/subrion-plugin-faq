@@ -4,17 +4,21 @@
 	<summary>Allows to create a FAQ section on your Subrion CMS powered website.</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>4.0.0</version>
-	<date>2015-11-03</date>
+	<version>4.0.1</version>
+	<date>2016-03-28</date>
 	<compatibility>4.0</compatibility>
 
 	<adminpages>
-		<page group="content" name="faq" menus="menu" url="faq/" order="50">FAQs</page>
+		<page group="content" name="faq" menus="menu" url="faq/" filename="index" order="50">FAQs</page>
+		<page group="content" name="faq_categs" menus="menu" url="faq/categories/" filename="categories" order="51">FAQ Categories</page>
 	</adminpages>
 
 	<actions>
-		<action name="faq_view" url="faq/" icon="list" order="1" pages="faq:add, faq:edit">List</action>
-		<action name="faq_add" url="faq/add/" icon="plus" order="2" pages="faq">Add FAQ</action>
+		<action name="faq_view" url="faq/" icon="list" order="1" pages="faq:add,faq:edit,faq_categs,faq_categs:add,faq_categs:edit">FAQ List</action>
+		<action name="faq_add" url="faq/add/" icon="plus" order="2" pages="faq,faq_categs,faq_categs:add,faq_categs:edit">Add FAQ</action>
+
+		<action name="faq_categs" url="faq/categories/" icon="list-2" order="1" pages="faq,faq_categs:add,faq_categs:edit">FAQ Categories</action>
+		<action name="faq_categ_add" url="faq/categories/add/" icon="folder-plus" order="3" pages="faq, faq_categs">Add FAQ Category</action>
 	</actions>
 
 	<pages>
@@ -30,10 +34,19 @@
 		<phrase category="admin" key="question">Question</phrase>
 		<phrase category="admin" key="answer">Answer</phrase>
 		<phrase category="admin" key="manage_faq">Manage FAQ</phrase>
+		<phrase category="admin" key="cart_categs">FAQ categories</phrase>
+		<phrase category="admin" key="faq_categ_add">Add category</phrase>
+		<phrase category="admin" key="faq_categ_edit">Edit category</phrase>
+		<phrase category="admin" key="faq_incorrect_categ">Category is not selected.</phrase>
+		<phrase category="admin" key="faq_categ_added">FAQ category is added.</phrase>
+		<phrase category="admin" key="faq_categ_deleted">FAQ category is removed.</phrase>
+		<phrase category="admin" key="faq_categs_deleted">FAQ categories are removed.</phrase>
+		<phrase category="admin" key="wrong_categ">Wrong Category selected.</phrase>
+		<phrase category="admin" key="faq_are_you_sure_to_delete_selected_categ">Are you sure to delete selected category?</phrase>
+		<phrase category="admin" key="faq_are_you_sure_to_delete_selected_categs">Are you sure to delete selected categories?</phrase>
 		<phrase category="common" key="faq">FAQ</phrase>
 
 		<phrase category="frontend" key="no_faq">There is no any FAQ.</phrase>
-		<phrase category="frontend" key="question_list">Questions</phrase>
 	</phrases>
 
 	<install>
@@ -41,6 +54,7 @@
 			<![CDATA[
 CREATE TABLE `{prefix}faq` (
 	`id` int(11) unsigned NOT NULL auto_increment,
+	`cid` smallint(4) unsigned NOT NULL,
 	`question` text NOT NULL,
 	`answer` text NOT NULL,
 	`status` enum('inactive','active') NOT NULL default 'inactive',
@@ -51,12 +65,31 @@ CREATE TABLE `{prefix}faq` (
 ) {mysql_version};
 			]]>
 		</sql>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}faq_categs`(
+	`id` smallint(4) unsigned NOT NULL auto_increment,
+	`title` text NOT NULL,
+	`description` text NOT NULL,
+	`status` enum('inactive','active') NOT NULL default 'inactive',
+	`order` int(4) NOT NULL,
+	PRIMARY KEY (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+		<sql>
+			<![CDATA[
+INSERT INTO `{prefix}faq_categs`
+(`id`, `title`, `description`, `status`)
+VALUES (1, 'No category', '', 'active');
+			]]>
+		</sql>
 	</install>
 
 	<uninstall>
 		<sql>
 			<![CDATA[
-DROP TABLE IF EXISTS `{prefix}faq`;
+DROP TABLE IF EXISTS `{prefix}faq`, `{prefix}faq_categs`;
 			]]>
 		</sql>
 	</uninstall>
