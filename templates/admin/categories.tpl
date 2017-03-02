@@ -40,4 +40,4 @@
 	{include file='grid.tpl'}
 {/if}
 
-{ia_print_js files='_IA_URL_plugins/faq/js/admin/categories'}
+{ia_print_js files='_IA_URL_modules/faq/js/admin/categories'}

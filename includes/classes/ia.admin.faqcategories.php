@@ -24,7 +24,7 @@
  *
  ******************************************************************************/
 
-class iaFaqCategories extends abstractPlugin
+class iaFaqCategories extends abstractModuleAdmin
 {
 	protected static $_table = 'faq_categs';
 

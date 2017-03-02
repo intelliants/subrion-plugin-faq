@@ -18,7 +18,7 @@
 		{/foreach}
 	</div>
 
-	{ia_add_media files='css: _IA_URL_plugins/faq/templates/front/css/style'}
+	{ia_add_media files='css: _IA_URL_modules/faq/templates/front/css/style'}
 {else}
 	<div class="alert alert-info">{lang key='no_faq'}</div>
 {/if}

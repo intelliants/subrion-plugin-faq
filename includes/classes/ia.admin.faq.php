@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-class iaFaq extends abstractPlugin
+class iaFaq extends abstractModuleAdmin
 {
 	protected static $_table = 'faq';
 

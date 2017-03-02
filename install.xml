@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin name="faq">
+<module type="plugin" name="faq">
 	<title>FAQ</title>
 	<summary>Allows to create a FAQ section on your Subrion CMS powered website.</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>4.0.1</version>
-	<date>2016-03-28</date>
-	<compatibility>4.0</compatibility>
+	<version>4.1.0</version>
+	<date>2017-03-02</date>
+	<compatibility>4.1</compatibility>
 
 	<adminpages>
 		<page group="content" name="faq" menus="menu" url="faq/" filename="index" order="50">FAQs</page>
@@ -101,4 +101,4 @@ ALTER TABLE `{prefix}faq` ADD `order` smallint(5) unsigned NOT NULL DEFAULT 0;
 			]]>
 		</sql>
 	</upgrade>
-</plugin>
+</module>

@@ -24,7 +24,7 @@
  *
  ******************************************************************************/
 
-class iaBackendController extends iaAbstractControllerPluginBackend
+class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'faq/categories';
 	protected $_table = 'faq_categs';
@@ -44,13 +44,13 @@ class iaBackendController extends iaAbstractControllerPluginBackend
 		parent::__construct();
 		$this->_template = 'categories';
 
-		$iaFaqCateg = $this->_iaCore->factoryPlugin($this->getPluginName(), iaCore::ADMIN, $this->_helperName);
+		$iaFaqCateg = $this->_iaCore->factoryModule($this->getModuleName(), iaCore::ADMIN, $this->_helperName);
 		$this->setHelper($iaFaqCateg);
 	}
 
 	protected function _indexPage(&$iaView)
 	{
-		$iaView->grid('_IA_URL_plugins/' . $this->getPluginName() . '/js/admin/categories');
+		$iaView->grid('_IA_URL_modules/faq/js/admin/categories');
 	}
 
 	protected function _setPageTitle(&$iaView)

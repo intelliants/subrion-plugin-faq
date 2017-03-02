@@ -177,7 +177,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	}
 	else
 	{
-		$iaView->grid('_IA_URL_plugins/faq/js/admin/index');
+		$iaView->grid('_IA_URL_modules/faq/js/admin/index');
 	}
 }
 
