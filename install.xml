@@ -5,20 +5,20 @@
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
 	<version>4.1.0</version>
-	<date>2017-03-02</date>
+	<date>2017-03-06</date>
 	<compatibility>4.1</compatibility>
 
 	<adminpages>
 		<page group="content" name="faq" menus="menu" url="faq/" filename="index" order="50">FAQs</page>
-		<page group="content" name="faq_categs" menus="menu" url="faq/categories/" filename="categories" order="51">FAQ Categories</page>
+		<page group="content" name="faq_categs" url="faq/categories/" filename="categories" order="51">FAQ Categories</page>
 	</adminpages>
 
 	<actions>
-		<action name="faq_view" url="faq/" icon="list" order="1" pages="faq:add,faq:edit,faq_categs,faq_categs:add,faq_categs:edit">FAQ List</action>
-		<action name="faq_add" url="faq/add/" icon="plus" order="2" pages="faq,faq_categs,faq_categs:add,faq_categs:edit">Add FAQ</action>
+		<action name="manage_faq" url="faq/" icon="list" order="1" pages="faq:add,faq:edit,faq_categs,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
+		<action name="add_faq" url="faq/add/" icon="plus" order="2" pages="faq,faq_categs,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
 
-		<action name="faq_categs" url="faq/categories/" icon="list-2" order="1" pages="faq,faq_categs:add,faq_categs:edit">FAQ Categories</action>
-		<action name="faq_categ_add" url="faq/categories/add/" icon="folder-plus" order="3" pages="faq, faq_categs">Add FAQ Category</action>
+		<action name="faq_categs" url="faq/categories/" icon="list-2" order="1" pages="faq,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
+		<action name="faq_categ_add" url="faq/categories/add/" icon="folder-plus" order="3" pages="faq, faq_categs"><![CDATA[]]></action>
 	</actions>
 
 	<pages>
@@ -34,7 +34,7 @@
 		<phrase category="admin" key="question">Question</phrase>
 		<phrase category="admin" key="answer">Answer</phrase>
 		<phrase category="admin" key="manage_faq">Manage FAQ</phrase>
-		<phrase category="admin" key="cart_categs">FAQ categories</phrase>
+		<phrase category="admin" key="faq_categs">FAQ categories</phrase>
 		<phrase category="admin" key="faq_categ_add">Add category</phrase>
 		<phrase category="admin" key="faq_categ_edit">Edit category</phrase>
 		<phrase category="admin" key="faq_incorrect_categ">Category is not selected.</phrase>
