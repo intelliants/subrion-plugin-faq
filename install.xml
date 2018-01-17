@@ -1,104 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module type="plugin" name="faq">
-	<title>FAQ</title>
-	<summary>Allows to create a FAQ section on your Subrion CMS powered website.</summary>
-	<author>Intelliants LLC</author>
-	<contributor>Intelliants LLC</contributor>
-	<version>4.1.0</version>
-	<date>2017-03-06</date>
-	<compatibility>4.1</compatibility>
+    <title>FAQ</title>
+    <summary>Allows to create a FAQ section on your Subrion CMS powered website.</summary>
+    <author>Intelliants LLC</author>
+    <contributor>Intelliants LLC</contributor>
+    <version>4.2.0</version>
+    <date>2018-01-17</date>
+    <compatibility>4.2</compatibility>
 
-	<adminpages>
-		<page group="content" name="faq" menus="menu" url="faq/" filename="index" order="50">FAQs</page>
-		<page group="content" name="faq_categs" url="faq/categories/" filename="categories" order="51">FAQ Categories</page>
-	</adminpages>
+    <items>
+        <item table_name="faq" pages="faq">faq</item>
+        <item table_name="faq_categories" pages="faq">faq_category</item>
+    </items>
 
-	<actions>
-		<action name="manage_faq" url="faq/" icon="list" order="1" pages="faq:add,faq:edit,faq_categs,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
-		<action name="add_faq" url="faq/add/" icon="plus" order="2" pages="faq,faq_categs,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
+    <adminpages>
+        <page group="content" name="faq_items" url="faq/" filename="items" order="50" menus="menu">FAQs</page>
+        <page group="content" name="faq_categories" url="faq/categories/" filename="categories" order="51">Categories</page>
+    </adminpages>
 
-		<action name="faq_categs" url="faq/categories/" icon="list-2" order="1" pages="faq,faq_categs:add,faq_categs:edit"><![CDATA[]]></action>
-		<action name="faq_categ_add" url="faq/categories/add/" icon="folder-plus" order="3" pages="faq, faq_categs"><![CDATA[]]></action>
-	</actions>
+    <actions>
+        <action name="manage_faq_items" url="faq/" icon="list" order="1" pages="faq_items,faq_categories"><![CDATA[]]></action>
+        <action name="add_faq_item" url="faq/add/" icon="plus" order="2" pages="faq_items,faq_categories"><![CDATA[]]></action>
 
-	<pages>
-		<page name="faq" menus="main,bottom" url="faq/">FAQ</page>
-	</pages>
+        <action name="manage_faq_categories" url="faq/categories/" icon="list-2" order="1" pages="faq_items,faq_categories"><![CDATA[]]></action>
+        <action name="add_faq_category" url="faq/categories/add/" icon="folder-plus" order="3" pages="faq_items,faq_categories"><![CDATA[]]></action>
+    </actions>
 
-	<phrases>
-		<phrase category="admin" key="error_question">Question is empty.</phrase>
-		<phrase category="admin" key="error_answer">Answer is empty.</phrase>
-		<phrase category="admin" key="faq_added">Question has been added.</phrase>
-		<phrase category="admin" key="add_faq">Add FAQ</phrase>
-		<phrase category="admin" key="edit_faq">Edit FAQ</phrase>
-		<phrase category="admin" key="question">Question</phrase>
-		<phrase category="admin" key="answer">Answer</phrase>
-		<phrase category="admin" key="manage_faq">Manage FAQ</phrase>
-		<phrase category="admin" key="faq_categs">FAQ categories</phrase>
-		<phrase category="admin" key="faq_categ_add">Add category</phrase>
-		<phrase category="admin" key="faq_categ_edit">Edit category</phrase>
-		<phrase category="admin" key="faq_incorrect_categ">Category is not selected.</phrase>
-		<phrase category="admin" key="faq_categ_added">FAQ category is added.</phrase>
-		<phrase category="admin" key="faq_categ_deleted">FAQ category is removed.</phrase>
-		<phrase category="admin" key="faq_categs_deleted">FAQ categories are removed.</phrase>
-		<phrase category="admin" key="wrong_categ">Wrong Category selected.</phrase>
-		<phrase category="admin" key="faq_are_you_sure_to_delete_selected_categ">Are you sure to delete selected category?</phrase>
-		<phrase category="admin" key="faq_are_you_sure_to_delete_selected_categs">Are you sure to delete selected categories?</phrase>
-		<phrase category="common" key="faq">FAQ</phrase>
+    <pages>
+        <page name="faq" menus="main,bottom" url="faq/">FAQ</page>
+    </pages>
 
-		<phrase category="frontend" key="no_faq">There is no any FAQ.</phrase>
-	</phrases>
+    <fields_groups>
+        <group item="faq" name="general" title="General"><![CDATA[]]></group>
+        <group item="faq_category" name="general" title="General"><![CDATA[]]></group>
+    </fields_groups>
 
-	<install>
-		<sql>
-			<![CDATA[
+    <fields>
+        <field item="faq" group="general" name="question" type="textarea" editor="0" required="1" multilingual="1" page="faq">Question</field>
+        <field item="faq" group="general" name="answer" type="textarea" editor="1" required="1" multilingual="1" page="faq">Answer</field>
+
+        <field item="faq_category" group="general" name="title" type="text" length="191" required="1" multilingual="1" page="faq">Title</field>
+        <field item="faq_category" group="general" name="description" type="textarea" multilingual="1" page="faq">Description</field>
+    </fields>
+
+    <phrases>
+        <phrase category="admin" key="add_faq">Add FAQ</phrase>
+        <phrase category="admin" key="add_faq_category">Add category</phrase>
+        <phrase category="admin" key="add_faq_item">Add FAQ</phrase>
+        <phrase category="admin" key="edit_faq">Edit FAQ</phrase>
+        <phrase category="admin" key="edit_faq_category">Edit category</phrase>
+        <phrase category="admin" key="faq_added">Question has been added.</phrase>
+        <phrase category="admin" key="faq_category">FAQ category</phrase>
+        <phrase category="admin" key="faq_incorrect_categ">Category is not selected.</phrase>
+        <phrase category="admin" key="faq_category_added">FAQ category added.</phrase>
+        <phrase category="admin" key="faq_category_deleted">FAQ category removed.</phrase>
+        <phrase category="admin" key="faq_categories_deleted">FAQ categories removed.</phrase>
+        <phrase category="admin" key="faq_are_you_sure_to_delete_selected_category">Are you sure to delete selected category?</phrase>
+        <phrase category="admin" key="faq_are_you_sure_to_delete_selected_categories">Are you sure to delete selected categories?</phrase>
+        <phrase category="admin" key="items_num">Items #</phrase>
+        <phrase category="admin" key="manage_faq_categories">Manage categories</phrase>
+        <phrase category="admin" key="manage_faq_items">Manage FAQ</phrase>
+
+        <phrase category="common" key="faq">FAQ</phrase>
+
+        <phrase category="frontend" key="no_faq">There is no any FAQ.</phrase>
+    </phrases>
+
+    <install>
+        <sql>
+            <![CDATA[
 CREATE TABLE `{prefix}faq` (
-	`id` int(11) unsigned NOT NULL auto_increment,
-	`cid` smallint(4) unsigned NOT NULL,
-	`question` text NOT NULL,
-	`answer` text NOT NULL,
-	`status` enum('inactive','active') NOT NULL default 'inactive',
-	`lang` char(2) NOT NULL,
-	`order` smallint(5) unsigned NOT NULL,
-	PRIMARY KEY (`id`),
-	KEY `lang` (`lang`)
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `category_id` smallint(4) unsigned NOT NULL,
+  `status` enum('active','inactive') NOT NULL default 'active',
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
-CREATE TABLE `{prefix}faq_categs`(
-	`id` smallint(4) unsigned NOT NULL auto_increment,
-	`title` text NOT NULL,
-	`description` text NOT NULL,
-	`status` enum('inactive','active') NOT NULL default 'inactive',
-	`order` int(4) NOT NULL,
-	PRIMARY KEY (`id`)
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
+CREATE TABLE `{prefix}faq_categories`(
+  `id` smallint(4) unsigned NOT NULL auto_increment,
+  `status` enum('active','inactive') NOT NULL default 'active',
+  `order` int(4) NOT NULL,
+  PRIMARY KEY (`id`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
-INSERT INTO `{prefix}faq_categs`
-(`id`, `title`, `description`, `status`)
-VALUES (1, 'No category', '', 'active');
-			]]>
-		</sql>
-	</install>
+            ]]>
+        </sql>
+    </install>
 
-	<uninstall>
-		<sql>
-			<![CDATA[
-DROP TABLE IF EXISTS `{prefix}faq`, `{prefix}faq_categs`;
-			]]>
-		</sql>
-	</uninstall>
+    <uninstall>
+        <sql>
+            <![CDATA[
+DROP TABLE IF EXISTS `{prefix}faq`, `{prefix}faq_categories`;
+            ]]>
+        </sql>
+    </uninstall>
 
-	<upgrade>
-		<sql version="3.2.0">
-			<![CDATA[
-ALTER TABLE `{prefix}faq` ADD `order` smallint(5) unsigned NOT NULL DEFAULT 0;
-			]]>
-		</sql>
-	</upgrade>
+    <upgrade>
+        <sql version="3.2.0">
+            <![CDATA[
+ALTER TABLE `{prefix}faq` ADD `order` smallint(5) unsigned NOT NULL default 0;
+            ]]>
+        </sql>
+    </upgrade>
 </module>

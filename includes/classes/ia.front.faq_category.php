@@ -24,11 +24,11 @@
  *
  ******************************************************************************/
 
-class iaFaq extends abstractModuleAdmin
+class iaFaqCategory extends abstractModuleFront
 {
-    protected static $_table = 'faq';
+    protected static $_table = 'faq_categories';
 
-    protected $_itemName = 'faq';
+    protected $_itemName = 'faq_category';
 
 
 }

@@ -24,11 +24,44 @@
  *
  ******************************************************************************/
 
-class iaFaq extends abstractModuleAdmin
+class iaFaq extends abstractModuleFront
 {
     protected static $_table = 'faq';
 
     protected $_itemName = 'faq';
 
 
+    public function get()
+    {
+        $this->iaCore->factoryItem('faq_category');
+
+        $sql = 'SELECT '
+                . 'f.*, '
+                . 'c.title_:lang category '
+            . 'FROM :table_faq f '
+            . 'LEFT JOIN :table_categories c ON (f.category_id = c.id) '
+            . "WHERE f.status = ':status' "
+            . 'GROUP BY f.id '
+            . 'ORDER BY f.category_id, f.order, f.question_:lang';
+
+        $sql = iaDb::printf($sql, [
+            'table_faq' => self::getTable(true),
+            'table_categories' => iaFaqCategory::getTable(true),
+            'lang' => $this->iaCore->language['iso'],
+            'status' => iaCore::STATUS_ACTIVE
+        ]);
+
+        $rows = $this->iaDb->getAll($sql);
+
+        $this->_processValues($rows);
+
+        $result = [];
+
+        if ($rows) {
+            foreach ($rows as $row)
+                $result[$row['category']][] = $row;
+        }
+
+        return $result;
+    }
 }

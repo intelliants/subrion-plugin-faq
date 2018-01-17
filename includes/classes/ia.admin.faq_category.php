@@ -24,29 +24,22 @@
  *
  ******************************************************************************/
 
-class iaFaqCategories extends abstractModuleAdmin
+class iaFaqCategory extends abstractModuleAdmin
 {
-	protected static $_table = 'faq_categs';
+    protected static $_table = 'faq_categories';
 
-	public function delete($id)
-	{
-		$result = false;
+    protected $_itemName = 'faq_category';
 
-		$this->iaDb->setTable(self::getTable());
 
-		// if item exists, then remove it
-		if ($row = $this->iaDb->row_bind(array('title'), '`id` = :id', array('id' => $id)))
-		{
-			$result = (bool)$this->iaDb->delete(iaDb::convertIds($id), self::getTable());
+    public function getKeyValue()
+    {
+        $rows = $this->getAll(iaDb::EMPTY_CONDITION . ' ORDER BY `title_' . $this->iaCore->language['iso'] . '`');
 
-			if ($result)
-			{
-				$this->iaCore->factory('log')->write(iaLog::ACTION_DELETE, array('module' => 'faq', 'item' => 'faq_categs', 'name' => $row['title'], 'id' => (int)$id));
-			}
-		}
+        $result = [];
+        foreach ($rows as $row) {
+            $result[$row['id']] = $row['title'];
+        }
 
-		$this->iaDb->resetTable();
-
-		return $result;
-	}
+        return $result;
+    }
 }

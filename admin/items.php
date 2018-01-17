@@ -26,57 +26,58 @@
 
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
-    protected $_name = 'categories';
+    protected $_name = 'items';
 
-    protected $_helperName = 'faq_category';
+    protected $_helperName = 'faq';
 
-    protected $_gridColumns = ['title', 'description', 'status'];
+    protected $_gridColumns = ['question', 'answer', 'status', 'order'];
     protected $_gridFilters = ['status' => self::EQUAL];
-    protected $_gridQueryMainTableAlias = 'c';
+    protected $_gridSorting = ['category_title' => ['title', 'c', 'faq_categories']];
+    protected $_gridQueryMainTableAlias = 'f';
 
-    protected $_phraseAddSuccess = 'faq_category_added';
+    protected $_phraseAddSuccess = 'faq_added';
 
-    protected $_phraseGridEntryDeleted = 'faq_category_deleted';
-    protected $_phraseGridEntriesDeleted = 'faq_categories_deleted';
+    protected $_activityLog = ['item' => 'faq', 'title_field' => 'question'];
 
-    private $_iaFaq;
+    private $_iaFaqCategory;
 
 
     public function init()
     {
-        $this->_iaFaq = $this->_iaCore->factoryItem('faq');
+        $this->_path = $this->_path = IA_ADMIN_URL . $this->getModuleName() . IA_URL_DELIMITER;
+
+        $this->_iaFaqCategory = $this->_iaCore->factoryItem('faq_category');
     }
 
     protected function _setPageTitle(&$iaView, array $entryData, $action)
     {
-        $iaView->title(iaLanguage::get($action . '_faq_category', $iaView->title()));
-
-        iaBreadcrumb::insert(iaLanguage::get('page_title_faq_items'), IA_ADMIN_URL . 'faq/', iaBreadcrumb::POSITION_FIRST);
+        $iaView->title(iaLanguage::get($action . '_faq', $iaView->title()));
     }
 
-    protected function _setDefaultValues(array &$entry)
+    protected function _gridModifyParams(&$conditions, &$values, array $params)
     {
-        $entry['title'] = $entry['description'] = '';
-        $entry['status'] = iaCore::STATUS_ACTIVE;
+        if (!empty($params['text'])) {
+            $langCode = $this->_iaCore->language['iso'];
+
+            $conditions[] = "(f.question_{$langCode} LIKE :text OR f.answer{$langCode} LIKE :text)";
+            $values['text'] = '%' . iaSanitize::sql($params['text']) . '%';
+        }
     }
 
     public function _gridQuery($columns, $where, $order, $start, $limit)
     {
-        $this->_iaCore->factoryItem('faq');
-
         $sql = 'SELECT '
                 . ':columns, '
-                . 'COUNT(f.id) items '
-            . 'FROM :table_categories c '
-            . 'LEFT JOIN :table_items f ON (f.category_id = c.id) '
+                . 'c.title_:lang category '
+            . 'FROM :table_items f '
+            . 'LEFT JOIN :table_categories c ON (f.category_id = c.id) '
             . 'WHERE :where :order '
-            . 'GROUP BY c.id '
             . 'LIMIT :start, :limit';
 
         $sql = iaDb::printf($sql, [
             'lang' => $this->_iaCore->language['iso'],
-            'table_categories' => $this->_iaDb->prefix . $this->getTable(),
-            'table_items' => iaFaq::getTable(true),
+            'table_items' => $this->_iaDb->prefix . $this->getTable(),
+            'table_categories' => $this->_iaDb->prefix . $this->_iaFaqCategory->getTable(),
             'columns' => $columns,
             'where' => $where,
             'order' => $order,
@@ -87,32 +88,28 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         return $this->_iaDb->getAll($sql);
     }
 
-    protected function _delete($entryId)
+    protected function _setDefaultValues(array &$entry)
     {
-        if(parent::_delete($entryId)) {
-            // un-assign faq items from
-            $this->_iaDb->update(['category_id' => 0],
-                iaDb::convertIds($entryId, 'category_id'), null, iaFaq::getTable());
-
-            return true;
-        }
-
-        return false;
-    }
-
-    protected function _gridModifyOutput(array &$entries)
-    {
-        foreach ($entries as &$entry) {
-            $entry['description'] = iaSanitize::tags($entry['description']);
-        }
+        $entry = [
+            'category_id' => 0,
+            'status' => iaCore::STATUS_ACTIVE
+        ];
     }
 
     protected function _preSaveEntry(array &$entry, array $data, $action)
     {
         parent::_preSaveEntry($entry, $data, $action);
 
+        $entry['category_id'] = (int)$data['category_id'];
         $entry['status'] = $data['status'];
 
         return !$this->getMessages();
+    }
+
+    protected function _assignValues(&$iaView, array &$entryData)
+    {
+        parent::_assignValues($iaView, $entryData);
+
+        $iaView->assign('categories', $this->_iaFaqCategory->getKeyValue());
     }
 }
