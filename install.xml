@@ -36,8 +36,8 @@
     </fields_groups>
 
     <fields>
-        <field item="faq" group="general" name="question" type="textarea" editor="0" required="1" multilingual="1" page="faq">Question</field>
-        <field item="faq" group="general" name="answer" type="textarea" editor="1" required="1" multilingual="1" page="faq">Answer</field>
+        <field item="faq" group="general" name="question" type="textarea" length="191" editor="0" required="1" multilingual="1" page="faq">Question</field>
+        <field item="faq" group="general" name="answer" type="textarea" length="10000" editor="1" required="1" multilingual="1" page="faq">Answer</field>
 
         <field item="faq_category" group="general" name="title" type="text" length="191" required="1" multilingual="1" page="faq">Title</field>
         <field item="faq_category" group="general" name="description" type="textarea" multilingual="1" page="faq">Description</field>
